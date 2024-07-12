@@ -7,7 +7,6 @@ from django.shortcuts import redirect
 from rest_framework import status
 from .serializers import RegistrationSerializer, UserLoginSerializer
 
-
 class UserRegistration(APIView):
     serializer_class = RegistrationSerializer
 
@@ -42,3 +41,5 @@ class UserLogout(APIView):
     def get(self, request):
         logout(request)
         return redirect("login")
+    
+    
