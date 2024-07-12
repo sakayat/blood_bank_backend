@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-^r0ju#q%@y=-8588ta)j+32h+)3juxt^4t_bwadx&3ae1b*s46
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'accounts',
     'donors',
 ]
+
+
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
@@ -138,4 +140,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'accounts.DonorProfile'
 CORS_ORIGIN_ALLOW_ALL = True
