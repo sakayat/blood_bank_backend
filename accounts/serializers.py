@@ -1,8 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-from .models import DonorProfile
-
-User = get_user_model()
+from django.contrib.auth.models import User
 
 class RegistrationSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField()
