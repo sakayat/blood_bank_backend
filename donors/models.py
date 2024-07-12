@@ -36,3 +36,17 @@ class BloodRequest(models.Model):
     
     def __str__(self) -> str:
         return f"{self.donor.first_name}"
+
+STATUS = [
+    ("accepted", "Accepted"),
+    ("canceled", "Canceled")
+]
+
+class DonationHistory(models.Model):
+    donor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="donations")
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_donation")
+    status = models.CharField(max_length=20, choices=STATUS)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self) -> str:
+        return f"Donar Name {self.donor.username} Recipient Name {self.recipient.username}"

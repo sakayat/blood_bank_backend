@@ -19,4 +19,5 @@ class DonorProfileSerializer(serializers.ModelSerializer):
 class BloodRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = BloodRequest
-        fields = ["id", "event_des", "blood_group", "accepted_by"]
+        fields = ["id", "des", "blood_group", "accepted_by"]
+        read_only_fields = ["accepted_by"]

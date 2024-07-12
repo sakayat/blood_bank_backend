@@ -36,7 +36,6 @@ class UpdateDonorProfileAPI(APIView):
         serializer = DonorProfileSerializer(donor)
         return Response(serializer.data)
     
-    
     def put(self, request, pk, format=None):
         donor = self.get_object(pk)
         serializer = DonorProfileSerializer(donor, data=request.data)
@@ -51,7 +50,7 @@ class UpdateDonorProfileAPI(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class BloodEventRequestAPI(APIView):
+class BloodRequestAPI(APIView):
     serializer_class = BloodRequestSerializer
     permission_classes = [permissions.IsAuthenticated]
     
