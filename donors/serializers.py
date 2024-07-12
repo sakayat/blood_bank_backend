@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DonorProfile, BloodEventRequest
+from .models import DonorProfile, BloodRequest
 
 
 class DonorProfileSerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class DonorProfileSerializer(serializers.ModelSerializer):
         ]
 
 
-class BloodEventRequestSerializer(serializers.ModelSerializer):
+class BloodRequestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BloodEventRequest
+        model = BloodRequest
         fields = ["id", "event_des", "blood_group", "accepted_by"]

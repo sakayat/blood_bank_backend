@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, permissions
-from .serializers import DonorProfileSerializer, BloodEventRequestSerializer
-from .models import DonorProfile, BloodEventRequest
+from .serializers import DonorProfileSerializer, BloodRequestSerializer
+from .models import DonorProfile, BloodRequest
 
 # Create your views here.
 class DonorProfileAPI(APIView):
@@ -52,16 +52,16 @@ class UpdateDonorProfileAPI(APIView):
 
 
 class BloodEventRequestAPI(APIView):
-    serializer_class = BloodEventRequestSerializer
+    serializer_class = BloodRequestSerializer
     permission_classes = [permissions.IsAuthenticated]
     
     def get(self, request, format=None):
-        blood_requests = BloodEventRequest.objects.all()
-        serializer = BloodEventRequestSerializer(blood_requests, many=True)
+        blood_requests = BloodRequest.objects.all()
+        serializer = BloodRequestSerializer(blood_requests, many=True)
         return Response(serializer.data)
     
     def post(self, request, format=None):
-        serializer = BloodEventRequestSerializer(data=request.data)
+        serializer = BloodRequestSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(donor=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

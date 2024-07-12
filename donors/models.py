@@ -27,10 +27,10 @@ BLOOD_TYPES = [
     ("O-", "O-"),
 ]
 
-class BloodEventRequest(models.Model):
+class BloodRequest(models.Model):
     donor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blood_request")
     blood_group = models.CharField(max_length=5, choices=BLOOD_TYPES)
-    event_des = models.TextField()
+    des = models.TextField()
     accepted_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     status = models.CharField(max_length=20, default="pending")
     
