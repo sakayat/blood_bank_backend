@@ -30,8 +30,10 @@ BLOOD_TYPES = [
 class BloodRequest(models.Model):
     donor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blood_request")
     blood_group = models.CharField(max_length=5, choices=BLOOD_TYPES)
-    des = models.TextField()
-    accepted_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    location = models.CharField(max_length=100)
+    date = models.DateField()
+    volume = models.IntegerField()
+    event_description = models.TextField()
     status = models.CharField(max_length=20, default="pending")
     
     def __str__(self) -> str:
@@ -50,3 +52,5 @@ class DonationHistory(models.Model):
     
     def __str__(self) -> str:
         return f"Donar Name {self.donor.username} Recipient Name {self.recipient.username}"
+    
+

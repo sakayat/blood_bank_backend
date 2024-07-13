@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DonorProfile, BloodRequest
+from .models import DonorProfile, BloodRequest, DonationHistory
 
 
 class DonorProfileSerializer(serializers.ModelSerializer):
@@ -19,5 +19,21 @@ class DonorProfileSerializer(serializers.ModelSerializer):
 class BloodRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = BloodRequest
-        fields = ["id", "des", "blood_group", "accepted_by"]
-        read_only_fields = ["accepted_by"]
+        fields = [
+            "id",
+            "donor",
+            "blood_group",
+            "location",
+            "date",
+            "volume",
+            "event_description",
+            "status",
+        ]
+        read_only_fields = ["id", "donor", "status"]
+
+class DonationHistorySerializer(serializers.ModelSerializer):
+    donor = serializers.ReadOnlyField(source="donor.username")
+    recipient = serializers.ReadOnlyField(source="recipient.username")
+    class Meta:
+        model = DonationHistory
+        fields = ["id", "donor", "recipient", "status", "created_at"]
