@@ -17,19 +17,19 @@ class DonorProfile(models.Model):
 
 
 BLOOD_TYPES = [
-    ("A+", "A+"),
-    ("A-", "A-"),
-    ("B+", "B+"),
-    ("B-", "B-"),
-    ("AB+", "AB+"),
-    ("AB-", "AB-"),
-    ("O+", "O+"),
-    ("O-", "O-"),
+    ("a-positive", "a-positive"),
+    ("a-negative", "a-negative"),
+    ("b-positive", "b-positive"),
+    ("b-negative", "b-negative"),
+    ("ab-positive", "ab-positive"),
+    ("ab-negative", "ab-negative"),
+    ("o-positive", "o-positive"),
+    ("o-negative", "o-negative")
 ]
 
 class BloodRequest(models.Model):
     donor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blood_request")
-    blood_group = models.CharField(max_length=5, choices=BLOOD_TYPES)
+    blood_group = models.CharField(max_length=20, choices=BLOOD_TYPES)
     location = models.CharField(max_length=100)
     date = models.DateField()
     volume = models.IntegerField()
@@ -37,7 +37,7 @@ class BloodRequest(models.Model):
     status = models.CharField(max_length=20, default="pending")
     
     def __str__(self) -> str:
-        return f"{self.donor.first_name}"
+        return f"Re{self.donor.username}"
 
 STATUS = [
     ("accepted", "Accepted"),

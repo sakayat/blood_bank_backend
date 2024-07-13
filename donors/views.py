@@ -69,6 +69,19 @@ class BloodRequestAPI(APIView):
             serializer.save(donor=request.user)
             return Response(serializer.data, status.HTTP_201_CREATED)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+    
+
+class BloodRequestListAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        blood_group = request.query_params.get('blood_group')
+        print(blood_group)
+        blood_requests = BloodRequest.objects.all()
+        if blood_group:
+            blood_requests = blood_requests.filter(blood_group=blood_group)
+        serializer = BloodRequestSerializer(blood_requests, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class AcceptBloodRequestAPI(APIView):
