@@ -4,8 +4,7 @@ from .views import (
     DonorProfileAPI,
     UpdateDonorProfileAPI,
     BloodRequestAPI,
-    # AcceptBloodRequestAPI,
-    # DonationHistoryAPI,
+    AcceptBloodRequestAPI,
 )
 
 router = DefaultRouter()
@@ -18,10 +17,9 @@ urlpatterns = [
         "update-donor/<int:pk>/", UpdateDonorProfileAPI.as_view(), name="update-donor"
     ),
     path("blood-request/", BloodRequestAPI.as_view(), name="blood-request"),
-    # path(
-    #     "accept-request/<int:id>",
-    #     AcceptBloodRequestAPI.as_view(),
-    #     name="accept-request",
-    # ),
-    # path("donation-history/", DonationHistoryAPI.as_view(), name="donation-history"),
+    path(
+        "accept-request/<int:id>",
+        AcceptBloodRequestAPI.as_view(),
+        name="accept-request",
+    ),
 ]

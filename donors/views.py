@@ -71,3 +71,27 @@ class BloodRequestAPI(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class AcceptBloodRequestAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def put(self, request, id):
+        try:
+            blood_request = BloodRequest.objects.get(pk=id)
+        except BloodRequest.DoesNotExist:
+            return Response({'error': 'Blood request not found'})
+
+        donor = blood_request.donor
+        recipient = request.user
+
+        donation_history = DonationHistory.objects.create(
+            donor=donor,
+            recipient=recipient,
+            status='accepted'
+        )
+
+        blood_request.status = 'accepted'
+        blood_request.save()
+
+        serializer = DonationHistorySerializer(donation_history)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
