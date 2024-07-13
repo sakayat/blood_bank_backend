@@ -7,6 +7,7 @@ from .views import (
     AcceptBloodRequestAPI,
     CancelBloodRequest,
     DonationHistoryAPI,
+    OngoingBloodRequestAPI
 )
 
 router = DefaultRouter()
@@ -30,4 +31,5 @@ urlpatterns = [
         name="cancel",
     ),
     path("donation-history/", DonationHistoryAPI.as_view(), name="donation-history"),
+    path("ongoing-requests/", OngoingBloodRequestAPI.as_view(), name="ongoing-requests"),
 ]

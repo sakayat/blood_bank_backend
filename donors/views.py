@@ -129,3 +129,12 @@ class DonationHistoryAPI(APIView):
         donations = DonationHistory.objects.filter(recipient=request.user)
         serializer = DonationHistorySerializer(donations, many=True)
         return Response(serializer.data)
+    
+
+class OngoingBloodRequestAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        requests = BloodRequest.objects.filter(status="pending")
+        serializer = BloodRequestSerializer(requests, many=True)
+        return Response(serializer.data)
