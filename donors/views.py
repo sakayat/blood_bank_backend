@@ -87,7 +87,7 @@ class BloodRequestListAPI(APIView):
 class AcceptBloodRequestAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
     
-    def put(self, request, id, format=None):
+    def post(self, request, id, format=None):
         try:
             blood_request = BloodRequest.objects.get(pk=id)
         except BloodRequest.DoesNotExist:
