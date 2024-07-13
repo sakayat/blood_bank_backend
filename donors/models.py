@@ -45,8 +45,8 @@ STATUS = [
 ]
 
 class DonationHistory(models.Model):
-    donor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="donations")
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_donation")
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recipient")
+    donor = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS)
     created_at = models.DateTimeField(auto_now_add=True)
     

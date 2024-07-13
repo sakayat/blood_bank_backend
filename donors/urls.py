@@ -21,12 +21,12 @@ urlpatterns = [
     ),
     path("blood-request/", BloodRequestAPI.as_view(), name="blood-request"),
     path(
-        "<int:id>/accept",
+        "accept-request/<int:id>/",
         AcceptBloodRequestAPI.as_view(),
         name="accept",
     ),
     path(
-        "<int:id>/cancel",
+        "cancel-request/<int:id>/",
         CancelBloodRequest.as_view(),
         name="cancel",
     ),

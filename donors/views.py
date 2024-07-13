@@ -59,7 +59,7 @@ class BloodRequestAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, format=None):
-        blood_requests = BloodRequest.objects.all()
+        blood_requests = BloodRequest.objects.exclude(donor=request.user)
         serializer = BloodRequestSerializer(blood_requests, many=True)
         return Response(serializer.data)
 
@@ -74,7 +74,7 @@ class BloodRequestAPI(APIView):
 class AcceptBloodRequestAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
     
-    def put(self, request, id):
+    def put(self, request, id, format=None):
         try:
             blood_request = BloodRequest.objects.get(pk=id)
         except BloodRequest.DoesNotExist:
@@ -99,7 +99,7 @@ class AcceptBloodRequestAPI(APIView):
 class CancelBloodRequest(APIView):
     permission_classes = [permissions.IsAuthenticated]
     
-    def post(self, request, id):
+    def post(self, request, id, format=None):
         try:
             blood_request = BloodRequest.objects.get(pk=id)
         except BloodRequest.DoesNotExist:
