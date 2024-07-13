@@ -5,6 +5,7 @@ from .views import (
     UpdateDonorProfileAPI,
     BloodRequestAPI,
     AcceptBloodRequestAPI,
+    DonationHistoryAPI
 )
 
 router = DefaultRouter()
@@ -22,4 +23,5 @@ urlpatterns = [
         AcceptBloodRequestAPI.as_view(),
         name="accept-request",
     ),
+    path("donation-history/", DonationHistoryAPI.as_view(), name="donation-history"),
 ]

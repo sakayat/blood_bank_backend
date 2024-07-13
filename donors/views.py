@@ -95,3 +95,10 @@ class AcceptBloodRequestAPI(APIView):
         serializer = DonationHistorySerializer(donation_history)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+class DonationHistoryAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, format=None):
+        donations = DonationHistory.objects.filter(recipient=request.user)
+        serializer = DonationHistorySerializer(donations, many=True)
+        return Response(serializer.data)
