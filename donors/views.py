@@ -46,7 +46,7 @@ class UpdateDonorProfileAPI(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
         donor = self.get_object(pk)
@@ -67,8 +67,8 @@ class BloodRequestAPI(APIView):
         serializer = BloodRequestSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(donor=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status.HTTP_201_CREATED)
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
 class AcceptBloodRequestAPI(APIView):
@@ -79,7 +79,8 @@ class AcceptBloodRequestAPI(APIView):
             blood_request = BloodRequest.objects.get(pk=id)
         except BloodRequest.DoesNotExist:
             return Response({'error': 'Blood request not found'})
-
+        
+        
         donor = blood_request.donor
         recipient = request.user
 
@@ -93,7 +94,33 @@ class AcceptBloodRequestAPI(APIView):
         blood_request.save()
 
         serializer = DonationHistorySerializer(donation_history)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status.HTTP_200_OK)
+    
+class CancelBloodRequest(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def post(self, request, id):
+        try:
+            blood_request = BloodRequest.objects.get(pk=id)
+        except BloodRequest.DoesNotExist:
+            return Response({'error': 'Blood request not found'})
+        
+        if blood_request.status == "accepted":
+            blood_request.status = "canceled"
+            blood_request.save()
+            
+            donations = DonationHistory.objects.filter(donor=blood_request.donor,recipient=request.user).first()
+            if donations:
+                donations.status = "canceled"
+                donations.save()
+            
+            serializer = BloodRequestSerializer(blood_request)
+            return Response(serializer.data, status.HTTP_200_OK)
+        elif blood_request.status == "canceled":
+            return Response({"error": "Request already canceled"})
+        else:
+            return Response({"error": "Cannot cancel this request"})
+            
     
 class DonationHistoryAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
