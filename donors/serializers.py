@@ -13,7 +13,7 @@ class DonorSerializer(serializers.ModelSerializer):
             "age",
             "address",
             "last_donation",
-            "available",
+            "is_available",
         ]
 
 

@@ -10,7 +10,7 @@ class Donor(models.Model):
     age = models.PositiveIntegerField()
     address = models.TextField()
     last_donation = models.DateField()
-    available = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return self.donor.username

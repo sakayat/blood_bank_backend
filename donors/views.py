@@ -58,6 +58,12 @@ class UpdateDonorProfileAPI(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class DonorListAPI(APIView):
+    def get(self, request, format=None):
+        donors = Donor.objects.filter(is_available=True)
+        serializer = DonorSerializer(donors, many=True)
+        return Response(serializer.data)
+
 class BloodRequestAPI(APIView):
     serializer_class = BloodRequestSerializer
     permission_classes = [permissions.IsAuthenticated]
