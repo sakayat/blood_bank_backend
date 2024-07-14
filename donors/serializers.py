@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import DonorProfile, BloodRequest, DonationHistory
+from .models import Donor, BloodRequest, DonationHistory
 
 
-class DonorProfileSerializer(serializers.ModelSerializer):
+class DonorSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DonorProfile
+        model = Donor
         fields = [
             "id",
             "first_name",

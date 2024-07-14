@@ -16,7 +16,7 @@ router = DefaultRouter()
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("donor/", DonorProfileAPI.as_view(), name="donor"),
+    path("profile/", DonorProfileAPI.as_view(), name="profile"),
     path(
         "update-donor/<int:pk>/", UpdateDonorProfileAPI.as_view(), name="update-donor"
     ),
