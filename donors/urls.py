@@ -18,7 +18,7 @@ urlpatterns = [
     path("", include(router.urls)),
     path("profile/", DonorProfileAPI.as_view(), name="profile"),
     path(
-        "update-donor/<int:pk>/", UpdateDonorProfileAPI.as_view(), name="update-donor"
+        "update-profile/<int:pk>/", UpdateDonorProfileAPI.as_view(), name="update-donor"
     ),
     path("blood-request/", BloodRequestAPI.as_view(), name="blood-request"),
     path("request-list/", BloodRequestListAPI.as_view(), name="request-list"),

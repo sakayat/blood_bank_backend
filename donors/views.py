@@ -15,6 +15,7 @@ class DonorProfileAPI(APIView):
     def get(self, request, format=None):
         donor = Donor.objects.filter(donor=request.user)
         if donor:
+            donor = Donor.objects.get(donor=request.user)
             serializer = DonorSerializer(donor)
             return Response(serializer.data)
         return Response({"error": "No profile details available"})
