@@ -145,7 +145,7 @@ class CancelBloodRequest(APIView):
             serializer = BloodRequestSerializer(blood_request)
             return Response(serializer.data, status.HTTP_200_OK)
         elif blood_request.status == "canceled":
-            return Response({"error": "Request already canceled"})
+            return Response({"error": "Request already canceled"}, status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"error": "Cannot cancel this request"})
 

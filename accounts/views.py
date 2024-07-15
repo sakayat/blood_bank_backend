@@ -33,6 +33,7 @@ class UserRegistration(APIView):
             return Response("Check your mail for active account")
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
+
 def activate(request, uid64, token):
     try:
         uid = urlsafe_base64_decode(uid64).decode()
@@ -44,6 +45,7 @@ def activate(request, uid64, token):
         user.is_active = True
         user.save()
         return redirect("http://localhost:5173/login")
+
 
 class UserLogin(APIView):
     def post(self, request):
@@ -64,6 +66,8 @@ class UserLogin(APIView):
 
 
 class UserLogout(APIView):
-    def get(self, request):
+    def post(self, request):
         logout(request)
-        return redirect("login")
+        return Response(
+            {"message": "Successfully logged out."}, status=status.HTTP_200_OK
+        )
