@@ -69,7 +69,7 @@ class BloodRequestAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, format=None):
-        blood_requests = BloodRequest.objects.exclude(donor=request.user)
+        blood_requests = BloodRequest.objects.filter(donor=request.user)
         serializer = BloodRequestSerializer(blood_requests, many=True)
         return Response(serializer.data)
 
@@ -82,11 +82,8 @@ class BloodRequestAPI(APIView):
     
 
 class BloodRequestListAPI(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
     def get(self, request):
         blood_group = request.query_params.get('blood_group')
-        print(blood_group)
         blood_requests = BloodRequest.objects.all()
         if blood_group:
             blood_requests = blood_requests.filter(blood_group=blood_group)
@@ -103,9 +100,13 @@ class AcceptBloodRequestAPI(APIView):
         except BloodRequest.DoesNotExist:
             return Response({'error': 'Blood request not found'})
         
+       
         
         donor = blood_request.donor
         recipient = request.user
+        
+        if donor == recipient:
+            return Response("you can not accept your own request")
 
         donation_history = DonationHistory.objects.create(
             donor=donor,

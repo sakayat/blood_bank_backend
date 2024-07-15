@@ -3,7 +3,7 @@ from .models import Donor, BloodRequest, DonationHistory
 
 
 class DonorSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Donor
         fields = [
@@ -18,6 +18,7 @@ class DonorSerializer(serializers.ModelSerializer):
 
 
 class BloodRequestSerializer(serializers.ModelSerializer):
+    donor = serializers.StringRelatedField()
     class Meta:
         model = BloodRequest
         fields = [

@@ -23,7 +23,7 @@ urlpatterns = [
     ),
     path("list/", DonorListAPI.as_view(), name="list"),
     path("blood-request/", BloodRequestAPI.as_view(), name="blood-request"),
-    path("request-list/", BloodRequestListAPI.as_view(), name="request-list"),
+    path("blood-request-list/", BloodRequestListAPI.as_view(), name="blood-request-list"),
     path(
         "accept-request/<int:id>/",
         AcceptBloodRequestAPI.as_view(),
