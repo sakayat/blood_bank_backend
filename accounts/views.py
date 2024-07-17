@@ -22,7 +22,7 @@ class UserRegistration(APIView):
             user = serializer.save()
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            confirm_link = f"https://blood-bank-backend-1sf7.onrender.com/api/accounts/active/{uid}/{token}"
+            confirm_link = f"http://127.0.0.1:8000/api/accounts/active/{uid}/{token}"
             email_subject = "Confirm Your Email"
             email_body = render_to_string(
                 "confirm_mail.html", {"confirm_link": confirm_link}
@@ -30,7 +30,7 @@ class UserRegistration(APIView):
             email = EmailMultiAlternatives(email_subject, "", to={user.email})
             email.attach_alternative(email_body, "text/html")
             email.send()
-            return Response("Check your mail for active account")
+            return Response({"message": "check_your_mail_for_active_account"}, status.HTTP_200_OK)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
@@ -44,7 +44,7 @@ def activate(request, uid64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect("https://humane-donor.netlify.app/login/")
+        return redirect("http://localhost:5173/login/")
 
 
 class UserLogin(APIView):

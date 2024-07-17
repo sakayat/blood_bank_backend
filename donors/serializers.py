@@ -26,9 +26,8 @@ class BloodRequestSerializer(serializers.ModelSerializer):
             "donor",
             "blood_group",
             "location",
-            "date",
-            "volume",
             "event_description",
+            "contact",
             "status",
         ]
         read_only_fields = ["id", "donor", "status"]

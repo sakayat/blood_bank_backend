@@ -31,9 +31,8 @@ class BloodRequest(models.Model):
     donor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blood_request")
     blood_group = models.CharField(max_length=20, choices=BLOOD_TYPES)
     location = models.CharField(max_length=100)
-    date = models.DateField()
-    volume = models.IntegerField()
     event_description = models.TextField()
+    contact = models.CharField(max_length=15, unique=True, null=True, blank=True)
     status = models.CharField(max_length=20, default="pending")
     
     def __str__(self) -> str:

@@ -3,16 +3,19 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     DonorProfileAPI,
     UpdateDonorProfileAPI,
-    BloodRequestAPI,
     AcceptBloodRequestAPI,
     CancelBloodRequest,
     DonationHistoryAPI,
     OngoingBloodRequestAPI,
-    BloodRequestListAPI,
-    DonorListAPI
+    DonorListAPI,
+    BloodRequestListViewSet,
+    BloodRequestViewSet
 )
 
 router = DefaultRouter()
+
+router.register("blood-request", BloodRequestViewSet, basename="blood-request")
+router.register("blood-request-list", BloodRequestListViewSet, basename="blood-request-list")
 
 
 urlpatterns = [
@@ -22,8 +25,7 @@ urlpatterns = [
         "update-profile/<int:pk>/", UpdateDonorProfileAPI.as_view(), name="update-donor"
     ),
     path("list/", DonorListAPI.as_view(), name="list"),
-    path("blood-request/", BloodRequestAPI.as_view(), name="blood-request"),
-    path("blood-request-list/", BloodRequestListAPI.as_view(), name="blood-request-list"),
+    
     path(
         "accept-request/<int:id>/",
         AcceptBloodRequestAPI.as_view(),

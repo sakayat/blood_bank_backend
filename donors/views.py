@@ -9,7 +9,8 @@ from .serializers import (
     DonationHistorySerializer,
 )
 from .models import Donor, BloodRequest, DonationHistory
-
+from rest_framework import filters
+from .permission import RequestPermissionAny
 
 # Create your views here.
 class DonorProfileAPI(APIView):
@@ -69,32 +70,24 @@ class DonorListAPI(APIView):
         return Response(serializer.data)
 
 
-class BloodRequestAPI(APIView):
+class BloodRequestViewSet(viewsets.ModelViewSet):
+    queryset = BloodRequest.objects.all()
     serializer_class = BloodRequestSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request, format=None):
-        blood_requests = BloodRequest.objects.filter(donor=request.user)
-        serializer = BloodRequestSerializer(blood_requests, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = BloodRequestSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(donor=request.user)
-            return Response(serializer.data, status.HTTP_201_CREATED)
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-
-
-class BloodRequestListAPI(APIView):
-    def get(self, request):
-        blood_group = request.query_params.get("blood_group")
-        blood_requests = BloodRequest.objects.all()
-        if blood_group:
-            blood_requests = blood_requests.filter(blood_group=blood_group)
-        serializer = BloodRequestSerializer(blood_requests, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
+    
+    def perform_create(self, serializer):
+        return serializer.save(donor=self.request.user)
+    
+    def get_queryset(self):
+        return BloodRequest.objects.filter(donor=self.request.user)
+    
+    
+class BloodRequestListViewSet(viewsets.ModelViewSet):
+    queryset = BloodRequest.objects.all()
+    serializer_class = BloodRequestSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["blood_group", "location"]
+    permission_classes = [RequestPermissionAny]
 
 class AcceptBloodRequestAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
