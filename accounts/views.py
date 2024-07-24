@@ -30,7 +30,7 @@ class UserRegistration(APIView):
             email = EmailMultiAlternatives(email_subject, "", to={user.email})
             email.attach_alternative(email_body, "text/html")
             email.send()
-            return Response({"message": "check_your_mail_for_active_account"}, status.HTTP_200_OK)
+            return Response({"message": "check your mail for active account"}, status.HTTP_200_OK)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 

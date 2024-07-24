@@ -25,6 +25,7 @@ class BloodRequestSerializer(serializers.ModelSerializer):
             "id",
             "donor",
             "blood_group",
+            "units",
             "location",
             "event_description",
             "contact",
