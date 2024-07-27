@@ -9,6 +9,7 @@ class DonorSerializer(serializers.ModelSerializer):
             "id",
             "first_name",
             "last_name",
+            "blood_group",
             "gender",
             "date_of_birth",
             "religion",
