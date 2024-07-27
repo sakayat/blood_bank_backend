@@ -19,7 +19,6 @@ class Donor(models.Model):
     last_name = models.CharField(max_length=20)
     blood_group = models.CharField(max_length=3, choices=BLOOD_TYPES, blank=True, null=True)
     gender = models.CharField(max_length=10, choices=[("Male", "Male"), ("Female", "Female")], blank=True, null=True)
-    date_of_birth = models.DateField(blank=True, null=True)
     religion = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(max_length=100, blank=True, null=True)
     age = models.PositiveIntegerField(blank=True, null=True)

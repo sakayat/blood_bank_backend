@@ -11,7 +11,6 @@ class DonorSerializer(serializers.ModelSerializer):
             "last_name",
             "blood_group",
             "gender",
-            "date_of_birth",
             "religion",
             "email",
             "age",
