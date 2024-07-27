@@ -29,7 +29,7 @@ BLOOD_TYPES = [
 
 class BloodRequest(models.Model):
     donor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blood_request")
-    blood_group = models.CharField(max_length=20, choices=BLOOD_TYPES)
+    blood_group = models.CharField(max_length=3, choices=BLOOD_TYPES)
     units = models.PositiveIntegerField()
     location = models.CharField(max_length=100)
     event_description = models.TextField()

@@ -7,10 +7,13 @@ from .serializers import (
     DonorSerializer,
     BloodRequestSerializer,
     DonationHistorySerializer,
+    BloodRequestFilter
 )
 from .models import Donor, BloodRequest, DonationHistory
 from rest_framework import filters
 from .permission import RequestPermissionAny
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 # Create your views here.
 class DonorProfileAPI(APIView):
@@ -37,6 +40,16 @@ class DonorProfileAPI(APIView):
             return Response(serializer.data, status.HTTP_201_CREATED)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
+class DonorDetailsAPI(APIView):
+    def get_object(self, pk):
+        return Donor.objects.get(pk=pk)
+    
+    def get(self, request, pk, format=None):
+        donor = self.get_object(pk)
+        if donor:
+            serializer = DonorSerializer(donor)
+            return Response(serializer.data)
+        return Response({"error": "No profile details available"})
 
 class UpdateDonorProfileAPI(APIView):
     serializer_class = DonorSerializer
@@ -81,13 +94,24 @@ class BloodRequestViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return BloodRequest.objects.filter(donor=self.request.user)
     
-    
+
+
 class BloodRequestListViewSet(viewsets.ModelViewSet):
     queryset = BloodRequest.objects.all()
     serializer_class = BloodRequestSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ["blood_group", "location"]
+    search_fields = ['location']
     permission_classes = [RequestPermissionAny]
+    
+
+class BloodTypesAPI(APIView):
+    def get(self, request, format=None):
+        blood_group = request.query_params.get("blood_group")
+        if blood_group:
+            requests = BloodRequest.objects.filter(blood_group=blood_group)
+            serializer = BloodRequestSerializer(requests, many=True)
+            return Response(serializer.data)
+        return Response("not found")
 
 class AcceptBloodRequestAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Donor, BloodRequest, DonationHistory
-
+from django_filters import rest_framework as filters
 
 class DonorSerializer(serializers.ModelSerializer):
 
@@ -32,6 +32,14 @@ class BloodRequestSerializer(serializers.ModelSerializer):
             "status",
         ]
         read_only_fields = ["id", "donor", "status"]
+
+class BloodRequestFilter(filters.FilterSet):
+    location = filters.CharFilter(lookup_expr='icontains')
+    blood_group = filters.CharFilter(lookup_expr='exact')
+
+    class Meta:
+        model = BloodRequest
+        fields = ['location', 'blood_group']
 
 class DonationHistorySerializer(serializers.ModelSerializer):
     donor = serializers.ReadOnlyField(source="donor.username")
