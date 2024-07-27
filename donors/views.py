@@ -7,12 +7,10 @@ from .serializers import (
     DonorSerializer,
     BloodRequestSerializer,
     DonationHistorySerializer,
-    BloodRequestFilter
 )
 from .models import Donor, BloodRequest, DonationHistory
 from rest_framework import filters
 from .permission import RequestPermissionAny
-from django_filters.rest_framework import DjangoFilterBackend
 
 
 # Create your views here.
@@ -30,6 +28,7 @@ class DonorProfileAPI(APIView):
 
     def post(self, request, format=None):
         donor = Donor.objects.filter(donor=request.user)
+        
         if donor:
             return Response(
                 {"error": "user details already exits"}, status.HTTP_400_BAD_REQUEST

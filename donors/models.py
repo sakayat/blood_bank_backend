@@ -7,11 +7,16 @@ class Donor(models.Model):
     donor = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
-    age = models.PositiveIntegerField()
+    gender = models.CharField(max_length=10, choices=[("Male", "Male"), ("Female", "Female")], blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+    religion = models.CharField(max_length=20, null=True, blank=True)
+    email = models.EmailField(max_length=100, blank=True, null=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
     address = models.TextField()
+    profession = models.CharField(max_length=20, blank=True, null=True)
     last_donation = models.DateField()
     is_available = models.BooleanField(default=True)
-
+        
     def __str__(self) -> str:
         return self.donor.username
 
