@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework import status, permissions
 from .serializers import (
     DonorSerializer,
@@ -10,6 +10,7 @@ from .serializers import (
 )
 from .models import Donor, BloodRequest, DonationHistory
 from rest_framework import filters, pagination
+from rest_framework.exceptions import PermissionDenied
 from .permission import RequestPermissionAny
 
 # Create your views here.
@@ -177,10 +178,19 @@ class DonationHistoryAPI(APIView):
         return Response(serializer.data)
 
 
-class OngoingBloodRequestAPI(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+class OngoingRequestPagination(pagination.PageNumberPagination):
+    page_size = 10
+    page_size_query_param = page_size
+    max_page_size = 100
 
-    def get(self, request):
-        requests = BloodRequest.objects.exclude(donor=request.user)
-        serializer = BloodRequestSerializer(requests, many=True)
-        return Response(serializer.data)
+class OngoingBloodRequestAPI(viewsets.ModelViewSet):
+    queryset = BloodRequest.objects.all()
+    serializer_class = BloodRequestSerializer
+    pagination_class = OngoingRequestPagination
+    permission_classes = [RequestPermissionAny]
+    
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            raise PermissionDenied("Unauthorized: No user logged in")
+        return BloodRequest.objects.exclude(donor=self.request.user)
+

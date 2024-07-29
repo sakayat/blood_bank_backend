@@ -18,7 +18,7 @@ router = DefaultRouter()
 
 router.register("blood-request", BloodRequestViewSet, basename="blood-request")
 router.register("blood-request-list", AllBloodRequestViewSet, basename="blood-request-list")
-
+router.register("ongoing-requests", OngoingBloodRequestAPI, basename="ongoing-requests")
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -39,6 +39,6 @@ urlpatterns = [
         name="cancel",
     ),
     path("donation-history/", DonationHistoryAPI.as_view(), name="donation-history"),
-    path("ongoing-requests/", OngoingBloodRequestAPI.as_view(), name="ongoing-requests"),
+    # path("ongoing-requests/", OngoingBloodRequestAPI.as_view(), name="ongoing-requests"),
     path("bloods/", BloodTypesAPI.as_view(), name="bloods"),
 ]
