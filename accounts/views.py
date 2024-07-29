@@ -24,7 +24,7 @@ class UserRegistration(APIView):
             user = serializer.save()
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            confirm_link = f"{os.getenv("BASE_API_URL")}/api/accounts/active/{uid}/{token}"
+            confirm_link = f"https://blood-bank-backend-1sf7.onrender.com/api/accounts/active/{uid}/{token}"
             email_subject = "Confirm Your Email"
             email_body = render_to_string(
                 "confirm_mail.html", {"confirm_link": confirm_link}
@@ -46,7 +46,7 @@ def activate(request, uid64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect(f"{os.getenv("VITE_BASE_URL")}/login")
+        return redirect(f"https://humane-donor.netlify.app/login")
 
 
 class UserLogin(APIView):

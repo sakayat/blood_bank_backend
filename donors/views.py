@@ -77,7 +77,7 @@ class UpdateDonorProfileAPI(APIView):
 
 class DonorListAPI(APIView):
     def get(self, request, format=None):
-        donors = Donor.objects.filter(is_available=True)
+        donors = Donor.objects.filter(is_available=True).order_by("-createdAt")
         serializer = DonorSerializer(donors, many=True)
         return Response(serializer.data)
     

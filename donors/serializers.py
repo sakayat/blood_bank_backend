@@ -18,6 +18,7 @@ class DonorSerializer(serializers.ModelSerializer):
             "address",
             "last_donation",
             "is_available",
+            "createdAt",
         ]
     
     
