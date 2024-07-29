@@ -9,9 +9,8 @@ from .serializers import (
     DonationHistorySerializer,
 )
 from .models import Donor, BloodRequest, DonationHistory
-from rest_framework import filters
+from rest_framework import filters, pagination
 from .permission import RequestPermissionAny
-
 
 # Create your views here.
 class DonorProfileAPI(APIView):
@@ -80,7 +79,11 @@ class DonorListAPI(APIView):
         donors = Donor.objects.filter(is_available=True)
         serializer = DonorSerializer(donors, many=True)
         return Response(serializer.data)
-
+    
+class BloodRequestPagination(pagination.PageNumberPagination):
+    page_size = 6
+    page_size_query_params = page_size
+    max_page_size = 100
 
 class BloodRequestViewSet(viewsets.ModelViewSet):
     queryset = BloodRequest.objects.all()
@@ -92,14 +95,13 @@ class BloodRequestViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         return BloodRequest.objects.filter(donor=self.request.user)
-    
 
-
-class BloodRequestListViewSet(viewsets.ModelViewSet):
+class AllBloodRequestViewSet(viewsets.ModelViewSet):
     queryset = BloodRequest.objects.all()
     serializer_class = BloodRequestSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['location']
+    pagination_class = BloodRequestPagination
     permission_classes = [RequestPermissionAny]
     
 

@@ -8,7 +8,7 @@ from .views import (
     DonationHistoryAPI,
     OngoingBloodRequestAPI,
     DonorListAPI,
-    BloodRequestListViewSet,
+    AllBloodRequestViewSet,
     BloodRequestViewSet,
     BloodTypesAPI,
     DonorDetailsAPI
@@ -17,7 +17,7 @@ from .views import (
 router = DefaultRouter()
 
 router.register("blood-request", BloodRequestViewSet, basename="blood-request")
-router.register("blood-request-list", BloodRequestListViewSet, basename="blood-request-list")
+router.register("blood-request-list", AllBloodRequestViewSet, basename="blood-request-list")
 
 
 urlpatterns = [
