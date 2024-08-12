@@ -17,6 +17,7 @@ class DonorSerializer(serializers.ModelSerializer):
             "profession",
             "address",
             "last_donation",
+            "profile_image",
             "is_available",
             "createdAt",
         ]
