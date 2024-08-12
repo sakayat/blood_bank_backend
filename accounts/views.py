@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework.authtoken.models import Token
@@ -10,7 +11,14 @@ from django.utils.encoding import force_bytes
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
+from dotenv import load_dotenv
 from .serializers import RegistrationSerializer, UserLoginSerializer
+
+
+load_dotenv()
+
+VITE_BASE_URL = os.getenv("VITE_BASE_URL")
+BASE_API_URL = os.getenv("BASE_API_URL")
 
 
 class UserRegistration(APIView):
@@ -22,7 +30,7 @@ class UserRegistration(APIView):
             user = serializer.save()
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            confirm_link = f"/api/accounts/active/{uid}/{token}"
+            confirm_link = f"{BASE_API_URL}/api/accounts/active/{uid}/{token}"
             email_subject = "Confirm Your Email"
             email_body = render_to_string(
                 "confirm_mail.html", {"confirm_link": confirm_link}
@@ -44,7 +52,7 @@ def activate(request, uid64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect(f"/login")
+        return redirect(f"{VITE_BASE_URL}/login")
 
 
 class UserLogin(APIView):
