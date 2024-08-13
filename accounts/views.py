@@ -70,7 +70,7 @@ class UserLogin(APIView):
                 return Response(
                     {"error": "Invalid credentials"}, status.HTTP_400_BAD_REQUEST
                 )
-        return Response(serializer.errors)
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
 class UserLogout(APIView):
