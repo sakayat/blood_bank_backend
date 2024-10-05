@@ -26,7 +26,7 @@ class Donor(models.Model):
     profession = models.CharField(max_length=20, blank=True, null=True)
     last_donation = models.DateField()
     is_available = models.BooleanField(default=True)
-    profile_image = models.ImageField(upload_to="profile/images", blank=True, null=True)
+    profile_image = models.CharField(default="https://ibb.co.com/xXrms8v")
     createdAt = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self) -> str:
         return self.donor.username
