@@ -1,0 +1,18 @@
+{
+    "builds": [
+      {
+        "src": "blood_bank/wsgi.py",
+        "use": "@vercel/python",
+        "config": {
+          "maxLambadaSize": "250mb",
+          "runtime": "python3.12"
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "blood_bank/wsgi.py"
+      }
+    ]
+  }
