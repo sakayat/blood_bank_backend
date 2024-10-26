@@ -18,7 +18,7 @@ SafeBlood is a blood donation platform built using Django and Django REST Framew
 - **POST /register/**: Register a new user.
 - **POST /login/**: User login.
 - **POST /logout/**: User logout.
-- **GET /active/<uid64>/<token>/**: Activate user account via email link.
+- **GET /active/**: Activate user account via email link.
 
 ### Donor Endpoints
 - **GET /profile/**: Retrieve donor profile.
